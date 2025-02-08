@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Body
 
-from models import Theme, Question
+from models import Theme, Question, Assessment, Answer
 from services import GroqService
 
 app = FastAPI(
@@ -18,3 +18,11 @@ def generate_question(payload: Theme = Body(..., description="Tema para a geraç
     service = GroqService()
     question = service.create_question(payload.theme)
     return Question(question=question)
+
+@app.post("/api/v1/analyze-response",
+          response_model=Assessment,
+          summary="Análise de resposta")
+def analyze_response(question: Question, answer: Answer):
+    service = GroqService()
+    assessment = service.analyze_response(question.question, answer.answer)
+    return assessment
