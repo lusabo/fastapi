@@ -1,11 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Question(BaseModel):
-    """
-    A model representing a question.
-
-    Attributes:
-        question (str): The text of the question.
-    """
-    question: str
+    question: str = Field(..., min_length=5, description="Texto da questão gerada")
