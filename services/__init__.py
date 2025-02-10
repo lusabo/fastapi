@@ -1,3 +1,3 @@
-from .groq import GroqService
+from .groq_service import GroqService
 
 __all__ = ["GroqService"]
