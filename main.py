@@ -1,7 +1,11 @@
+import logging
 from fastapi import FastAPI
-
 from routes import auth, questions
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 app = FastAPI(
     title="API de Educação e E-learning",
     description="API que fornece serviços de IA para geração de questões e análise de respostas.",
