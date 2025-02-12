@@ -6,7 +6,7 @@ class Questions(BaseModel):
     quantity: int = Field(..., gt=1, description="Quantidade de questões a serem geradas")
 
     @field_validator("theme", mode="before")
-    def strip_whitespace(self, value: str) -> str:
+    def strip_whitespace(cls, value: str) -> str:
         if isinstance(value, str):
             return value.strip()
         return value
