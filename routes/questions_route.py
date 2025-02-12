@@ -1,9 +1,10 @@
 import logging
+from typing import List
 
 from fastapi import APIRouter, Body, HTTPException, Depends
 
-from models import Theme, Question, Assessment, Answer
-from routes.auth import get_current_user
+from models import Theme, Question, Assessment, Answer, Questions
+from routes.auth_route import get_current_user
 from services.groq_service import GroqService
 
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ router = APIRouter(
 )
 
 
-@router.post("/generate-question",
+@router.post("/v1/generate-question",
              response_model=Question,
              summary="Geração de questão por tema")
 def generate_question(
@@ -37,7 +38,37 @@ def generate_question(
     return Question(question=question_text)
 
 
-@router.post("/analyze-response",
+@router.post("/v2/generate-question",
+             response_model=List[Question],
+             summary="Geração de questões por tema com quantidade")
+def generate_question_v2(
+        payload: Questions = Body(..., description="Tema e quantidade de questões"),
+        current_user: dict = Depends(get_current_user)
+):
+    logger.info(
+        f"Usuário {current_user['id']} solicitou a geração de {payload.quantity} questão(ões) para o tema: '{payload.theme}'")
+
+    if not payload.theme.strip():
+        logger.warning("Usuário %s enviou um tema vazio.", current_user.get("id"))
+        raise HTTPException(status_code=422, detail="O tema não pode ser vazio.")
+
+    service = GroqService()
+    questions = []
+    for i in range(payload.quantity):
+        try:
+            question_text = service.create_question(payload.theme)
+        except Exception as e:
+            logger.error("Erro ao gerar a questão %d para o tema '%s' (usuário %s): %s",
+                         i + 1, payload.theme, current_user.get("id"), str(e), exc_info=True)
+            raise HTTPException(status_code=500, detail="Erro interno ao gerar a questão.")
+        questions.append(Question(question=question_text))
+
+    logger.info("Geração de %d questão(ões) concluída com sucesso para o usuário %s.",
+                len(questions), current_user.get("id"))
+    return questions
+
+
+@router.post("/v1/analyze-response",
              response_model=Assessment,
              summary="Análise de resposta")
 def analyze_response(

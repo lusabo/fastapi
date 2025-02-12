@@ -1,6 +1,6 @@
 import logging
 from fastapi import FastAPI
-from routes import auth, questions
+from routes import auth_route, questions_route
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,5 +13,5 @@ app = FastAPI(
     author="Luciano Borges, Marcio Hernandez e Gustavo Menossi"
 )
 
-app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(questions.router, prefix="/questions", tags=["Questions"])
+app.include_router(auth_route.router, prefix="/auth", tags=["Auth"])
+app.include_router(questions_route.router, prefix="/questions", tags=["Questions"])
