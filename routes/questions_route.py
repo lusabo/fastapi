@@ -7,8 +7,10 @@ from models import Theme, Question, Assessment, Answer, Questions
 from routes.auth_route import get_current_user
 from services.groq_service import GroqService
 
+# Configura o logger para o módulo atual
 logger = logging.getLogger(__name__)
 
+# Cria um roteador FastAPI com dependências
 router = APIRouter(
     dependencies=[Depends(get_current_user)]
 )
@@ -21,6 +23,19 @@ def generate_question(
         payload: Theme = Body(..., description="Tema para a geração da questão"),
         current_user: dict = Depends(get_current_user)
 ):
+    """
+    Gera uma questão baseada no tema fornecido.
+
+    Args:
+        payload (Theme): Objeto contendo o tema para a geração da questão.
+        current_user (dict): Dicionário contendo as informações do usuário atual.
+
+    Returns:
+        Question: Objeto contendo a questão gerada.
+
+    Raises:
+        HTTPException: Se o tema estiver vazio ou ocorrer um erro interno ao gerar a questão.
+    """
     logger.info(f"Usuário {current_user['id']} solicitou a geração de questão para o tema: '{payload.theme}'")
 
     if not payload.theme.strip():
@@ -45,6 +60,19 @@ def generate_question_v2(
         payload: Questions = Body(..., description="Tema e quantidade de questões"),
         current_user: dict = Depends(get_current_user)
 ):
+    """
+    Gera múltiplas questões baseadas no tema fornecido e na quantidade especificada.
+
+    Args:
+        payload (Questions): Objeto contendo o tema e a quantidade de questões a serem geradas.
+        current_user (dict): Dicionário contendo as informações do usuário atual.
+
+    Returns:
+        List[Question]: Lista de objetos contendo as questões geradas.
+
+    Raises:
+        HTTPException: Se o tema estiver vazio ou ocorrer um erro interno ao gerar as questões.
+    """
     logger.info(
         f"Usuário {current_user['id']} solicitou a geração de {payload.quantity} questão(ões) para o tema: '{payload.theme}'")
 
@@ -76,6 +104,20 @@ def analyze_response(
         answer: Answer = Body(..., description="Objeto contendo a resposta"),
         current_user: dict = Depends(get_current_user)
 ):
+    """
+    Analisa a resposta fornecida para uma questão específica.
+
+    Args:
+        question (Question): Objeto contendo a questão a ser analisada.
+        answer (Answer): Objeto contendo a resposta a ser analisada.
+        current_user (dict): Dicionário contendo as informações do usuário atual.
+
+    Returns:
+        Assessment: Objeto contendo a avaliação da resposta.
+
+    Raises:
+        HTTPException: Se a questão ou a resposta estiverem vazias, ou se ocorrer um erro interno ao analisar a resposta.
+    """
     logger.info(f"Usuário {current_user['id']} solicitou a análise de resposta.")
 
     if not question.question.strip():

@@ -1,19 +1,29 @@
 import json
-import os
 import logging
+import os
 
 from dotenv import load_dotenv
 from groq import Groq
 
 from models import Assessment
 
+# Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
+# Configura o logger para o módulo atual
 logger = logging.getLogger(__name__)
 
 
 class GroqService:
+    """
+    Serviço para interagir com a API Groq.
+    """
+
     def __init__(self):
+        """
+        Inicializa o serviço Groq, carregando a chave da API das variáveis de ambiente.
+        Lança um erro se a chave da API não estiver configurada.
+        """
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             logger.error("GROQ_API_KEY não configurada nas variáveis de ambiente.")
@@ -22,6 +32,18 @@ class GroqService:
         logger.info("GroqService inicializado com sucesso.")
 
     def create_question(self, theme: str):
+        """
+        Cria uma pergunta baseada no tema fornecido.
+
+        Args:
+            theme (str): O tema para o qual a pergunta será criada.
+
+        Returns:
+            str: A pergunta gerada.
+
+        Raises:
+            Exception: Se ocorrer um erro ao gerar a pergunta.
+        """
         logger.info("Iniciando criação de pergunta para o tema: '%s'", theme)
         prompt = f"""
         Por favor, crie uma pergunta interessante e desafiadora sobre {theme}.
@@ -53,6 +75,20 @@ class GroqService:
             raise Exception("Erro interno ao gerar a pergunta.")
 
     def analyze_response(self, question: str, answer: str) -> Assessment:
+        """
+        Analisa a resposta fornecida para uma pergunta específica.
+
+        Args:
+            question (str): A pergunta para a qual a resposta será analisada.
+            answer (str): A resposta que será analisada.
+
+        Returns:
+            Assessment: Um objeto contendo o feedback e o score da análise.
+
+        Raises:
+            Exception: Se ocorrer um erro ao analisar a resposta.
+            ValueError: Se a resposta recebida não estiver em formato JSON válido.
+        """
         logger.info("Iniciando análise de resposta para a pergunta: '%.50s...'", question)
         prompt = f"""
         Analise a resposta dada para a pergunta abaixo:
