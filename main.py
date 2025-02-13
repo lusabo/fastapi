@@ -1,6 +1,6 @@
 import logging
 from fastapi import FastAPI
-from routes import auth_route, questions_route
+from routes import auth_routes, questions_routes
 
 logging.basicConfig(
     level=logging.INFO,
@@ -8,10 +8,13 @@ logging.basicConfig(
 )
 app = FastAPI(
     title="API de Educação e E-learning",
-    description="API que fornece serviços de IA para geração de questões e análise de respostas.",
+    description=(
+        "API que fornece serviços de IA para geração de questões e análise de respostas.\n\n"
+        "*Equipe:* Luciano Borges, Marcio Hernandez e Gustavo Menossi\n\n"
+        "*Versão:* 1.0.0\n\n"
+        "*GitHub:* [GitHub](https://github.com/lusabo/fastapi)"
+    ),
     version="1.0.0",
-    author="Luciano Borges, Marcio Hernandez e Gustavo Menossi"
 )
-
-app.include_router(auth_route.router, prefix="/auth", tags=["Auth"])
-app.include_router(questions_route.router, prefix="/questions", tags=["Questions"])
+app.include_router(auth_routes.router, prefix="/auth", tags=["Auth"])
+app.include_router(questions_routes.router, prefix="/questions", tags=["Questions"])

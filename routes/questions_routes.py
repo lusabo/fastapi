@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, Body, HTTPException, Depends
 
 from models import Theme, Question, Assessment, Answer, Questions
-from routes.auth_route import get_current_user
+from routes.auth_routes import get_current_user
 from services.groq_service import GroqService
 
 # Configura o logger para o módulo atual
