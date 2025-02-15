@@ -18,20 +18,26 @@
 
 Este projeto foi desenvolvido para a disciplina **Construção de APIs para Inteligência Artificial** do programa de Pós-Graduação em Sistemas e Agentes Inteligentes da Universidade Federal de Goiás. O objetivo é criar uma API robusta utilizando o framework **FastAPI**.
 
-## 📌 Funcionalidades
+## Projeto: API de Educação e E-learning
+
+### Objetivo: 
+Gerar questões para elaboração e correções de provas online.
+
+### 📌 Características
 - Estrutura modular com **models**, **routes** e **services**.
 - Validação de dados utilizando **Pydantic**.
 - Documentação automática da API com **Swagger** e **Redoc**.
 - Configuração de ambiente utilizando **dotenv**.
 - Persistência de dados com banco de dados (SQLite, PostgreSQL ou outro configurado).
 
-## 📁 Estrutura do Projeto
+### 📁 Estrutura do Projeto
 ```bash
 fastapi/
 │── app/
 │   ├── models/        # Modelos de dados com Pydantic
 │   ├── routes/        # Endpoints da API
 │   ├── services/      # Lógica de negócio
+│   ├── tests/         # Testes unitários e de integração
 │── main.py            # Programa principal
 │── .env-sample        # Exemplo de variáveis de ambiente
 │── requirements.txt   # Dependências do projeto
@@ -39,14 +45,14 @@ fastapi/
 │── .gitignore         # Arquivos ignorados pelo Git
 ```
 
-## 🚀 Tecnologias Utilizadas
+### 🚀 Tecnologias Utilizadas
 - **FastAPI** - Framework para criação de APIs de alto desempenho.
 - **Pydantic** - Validação e serialização de dados.
 - **Uvicorn** - Servidor ASGI de alto desempenho.
 - **Dotenv** - Gerenciamento de variáveis de ambiente.
 
-## 🔧 Configuração do Ambiente
-### Orientações para executar a API
+### 🔧 Configuração do Ambiente
+#### Orientações para executar a API
 Sugestão de versão do Python: **3.10 ou superior**
 
 1. **Crie um ambiente virtual**
@@ -89,11 +95,11 @@ pip install fastapi[standard]
 fastapi dev main.py
 ```
 
-## 📖 Documentação Automática
+### 📖 Documentação Automática
 - **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - **Redoc**: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-## 🛠 Autenticação
+### 🛠 Autenticação
 1. **Acesse o botão `Authorize`**.
 2. **Informe as credenciais**:
    - **Username**: `admin`
