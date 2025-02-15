@@ -28,7 +28,6 @@ Gerar questões para elaboração e correções de provas online.
 - Validação de dados utilizando **Pydantic**.
 - Documentação automática da API com **Swagger** e **Redoc**.
 - Configuração de ambiente utilizando **dotenv**.
-- Persistência de dados com banco de dados (SQLite, PostgreSQL ou outro configurado).
 
 ### 📁 Estrutura do Projeto
 ```bash
